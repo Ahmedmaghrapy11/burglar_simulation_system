@@ -1,0 +1,301 @@
+<div *ngIf="isLoaded" class="loading d-flex justify-content-center align-items-center vh-100 w-100 position-absolute top-0 right-0 alert alert-dark border border-0"
+style="z-index: 9999999999999999999999999999999999999999999999999999999999;">
+  <i class="fa-solid fa-circle-notch fa-spin fa-7x"  style="--fa-animation-duration: .7s;"></i>
+</div>
+
+<div class="alert alert-dark border-0">
+
+  <div *ngIf="!isLoaded">
+
+    <div class="container-fluid container-sm m-5 rounded-3  alert alert-light border-0 m-auto rounded-3 main "
+    style="box-shadow: 0 1rem 3rem rgba(0,0,0,.3);background-color: #f1f1f1; width: 95%;">
+
+    <div class="m-auto  mq comp-shadow position-relative rounded-3 mb-4 p-4 alert alert-info bg bg-opacity-10">
+      <div class="row">
+        <div class="col-6 col-sm-12 col-md-6">
+          <div class="row ">
+            <div class="col-md-3 ps-0">
+              <i class="fa-solid fa-shield-halved text-info fa-6x "></i>
+            </div>
+            <div class="col-md-9 ">
+              <h3>Burgular <br> Alarm <br> System</h3>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class=" col-sm-12 col-md-6  text-end">
+
+          <div class="row gy-3">
+            <div class="col-12 text-start">
+              <div>
+                <label class="fs-5 mt-3 mt-sm-1">
+                  Clear-alarm command
+                </label>
+                <input type="text" class="form-control bg-info bg-opacity-10 border border-info" [(ngModel)]="command" (keyup)="checkCommand()">
+              </div>
+            </div>
+            <div class="col-6">
+              <div>
+                <button class="btn btn-outline-info w-100" (click)="toggle = !toggle">Turn {{toggleOnOff()}} toggle</button>
+              </div>
+            </div>
+            <div class="col-6">
+              <div>
+                <button class="btn btn-outline-info w-100" (click)="logOut()">logout <i class="fa-solid fa-right-from-bracket ms-2"></i></button>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="m-auto  mq comp-shadow position-relative rounded-3">
+      <div class="row m-auto ">
+        <div class="d-block d-sm-none col-12 rounded-top py-3 text-center door-label-mq door-card {{doorAlarm('card')}}">
+          <i class="fa-solid fa-door-closed fa-4x text-light "></i>
+          <div class="fs-3 text-light"> Doors</div>
+        </div>
+
+        <div class="col-2  align-items-stretch d-none d-sm-flex">
+          <div class="row rounded-top px-3 door-card {{doorAlarm('card')}}">
+            <div class="col-12 col-12 text-center py-3 m-auto ">
+              <i class="fa-solid fa-door-closed fa-4x text-light "></i>
+              <div class="fs-3 text-light"> Doors</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-10 py-3">
+          <div class="row mb-2 ms-3 ms-sm-5">
+            <div class="col-12 col-sm-6 col-md-4 text-center" *ngFor="let door of doorsList">
+              <!-- <div class="col-6  col-md-4 text-center" *ngFor="let door of doorsList"> -->
+              <div class="alert alert-success position-relative border-3 door-alarm " role="alert"
+                style="width: 130px;height: 155px;" [id]="door.id" [class.alert-danger]="door.status == 'open'"
+                [class.alert-success]="door.status == 'close'">
+
+
+                <span style="width: 10px; height: 10px;background-color: #badbcc;"
+                  class="rounded-circle position-absolute top-50 end-0 me-2"
+                  [style.backgroundColor]="door.status == 'open'? '#f5c2c7' : '#badbcc' "></span>
+
+                {{door.id}} <br>
+                {{door.status}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-center alert  mb-0 rounded-0 rounded-bottom {{callPolice('door','success',doorsList)}}">
+          <i class="fa-solid fa-person-military-rifle fa-6x door-police"></i>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="m-auto  mq comp-shadow position-relative rounded-3">
+      <div class="row m-auto mt-5 rounded-3">
+        <div class="d-block d-sm-none col-12 py-3 text-center window-card rounded-top {{windowAlarm('card')}}">
+          <i class="fa-solid fa-table-columns fa-4x text-light "></i>
+          <div class="fs-3 text-light"> Windows</div>
+        </div>
+
+        <div class="col-2  align-items-stretch d-none d-sm-flex">
+          <div class="row rounded-top window-card {{windowAlarm('card')}}">
+            <div class="col-12 text-center py-3 m-auto">
+              <i class="fa-solid fa-table-columns fa-4x text-light "></i>
+              <div class="fs-3 text-light"> windows</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-10 py-3">
+          <div class="row mb-2 ms-3 ms-sm-5">
+            <div class="col-12 col-sm-6 col-md-4 text-center" *ngFor="let window of windowsList">
+              <div class="alert alert-warning position-relative border-3 door-alarm " role="alert"
+                style="width:140px;height: 110px;" [id]="window.id" [class.alert-danger]="window.status == 'open'"
+                [class.alert-warning]="window.status == 'close'">
+
+
+
+                <span style="width: 10px; height: 10px;background-color: #ffecb5;"
+                  class="rounded-circle position-absolute top-50 end-0 me-2"
+                  [style.backgroundColor]="window.status == 'open'? '#f5c2c7' : '#ffecb5' "></span>
+
+                {{window.id}} <br>
+                {{window.status}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div
+          class="col-12 text-center alert mb-0 rounded-0 rounded-bottom  {{callPolice('window','warning',windowsList)}}">
+          <i class="fa-solid fa-person-military-rifle fa-6x  window-police "></i>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mt-4">
+      <div class="col-12 col-sm-6 mt-3">
+        <div class="card comp-shadow">
+          <div class="card-header battery-card bg-primary">
+            <span class="text-light">
+              Battery
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="row gy-3">
+              <div class="col-12">
+                <div class="blockquote mb-0 battery-prog border border-3 border-dark rounded-3 p-1 m-auto"
+                  style="width: 150px;">
+                  {{batteryProgress()}}
+                </div>
+
+              </div>
+              <div class="col-4 col-sm-6 col-md-4">
+                <button class="btn btn-outline-info px-1" (click)="batterySim(500)"  [disabled]="!disable"> start simulate</button>
+              </div>
+              <div class="col-4 col-sm-6 col-md-4">
+                <button class="btn btn-outline-info px-3" (click)="speedInterval()"  [disabled]="disable">speed up</button>
+              </div>
+              <div class="col-4 col-sm-6 col-md-4">
+                <button class="btn btn-outline-info px-2" (click)="stopInterval()"   [disabled]="disable">stop simulate</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="card-footer text-muted">
+            <div class="row gy-3">
+              <div class="col-3 text-center">
+                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                  data-bs-content="broken">
+                  <i
+                    class="fa-solid fa-plug-circle-bolt fa-plug-circle-bolt-card-icon  {{batterybroken('card')}} fs-4"></i>
+                </span>
+              </div>
+
+              <div class="col-3 text-center">
+                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                  data-bs-content="testing">
+                  <i class="fa-solid fa-gears fa-gears-card-icon fs-4 {{powerSupplyTest('card')}}"></i>
+                </span>
+              </div>
+
+              <div class="col-3 text-center">
+                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                  data-bs-content="call technichan">
+                  <i
+                    class="fa-solid fa-screwdriver-wrench fa-screwdriver-wrench-card-icon  {{callTeknkn('card')}} fs-4"></i>
+                </span>
+              </div>
+
+              <div class="col-3 text-center">
+                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                  data-bs-content="call technichan">
+                  <i class="fa-solid fa-person-military-rifle police-battery fs-4 {{callPoliceBattery()}}"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-12 col-sm-6 mt-3">
+        <div class="card comp-shadow ">
+          <div class="card-header motion-card {{motionAlarm('card')}}">
+            <!-- <div class="card-header motion-card "> -->
+            <span class="text-light">
+              Motion
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="blockquote ">
+              <div class="text-center ">
+                <i class="fa-solid fa-person-walking fa-person-walking-card-icon fa-4x "></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+      id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel"
+      style="visibility: visible;background-color: #051e34;">
+
+      <div style="height: 100vh;width: 60px;background-color: #051e34;position: absolute;right: -60px;top: 0px;"
+        class="d-flex align-items-center justify-content-center p-3 text-light">
+
+        <div class="align-self-start ">
+          <i class="fa-solid  fa-gears fa-gears-nav-icon mt-4 {{powerSupplyTest('nav')}}"></i>
+          <i class="fa-solid fa-plug-circle-bolt mt-4  {{batterybroken('nav')}}"></i>
+          <i class="fa-solid fa-screwdriver-wrench mt-4  {{callTeknkn('nav')}}"></i>
+
+          <div class="text-light align-self-end position-relative">
+            <i class="fa-solid fa-person-military-rifle mt-4 {{callPoliceNav()}} "></i>
+            <hr class="position-absolute bg-secondary position-relative"
+              style=" bottom: -20px;right: -25px;width: 1000px;">
+          </div>
+          <i class="fa-solid fa-door-open mt-4 {{doorAlarm('nav')}} "></i>
+          <i class="fa-solid fa-table-columns fa-table-columns-nav-icon  mt-4 {{windowAlarm('nav')}} "></i>
+          <i class="fa-solid fa-person-walking  mt-4 ms-1 {{motionAlarm('nav')}} "></i>
+          <i class="fa-solid fa-battery-three-quarters battery-nav-icon mt-4 {{batteryDangerNav()}} "></i>
+
+        </div>
+
+
+        <div class="text-light align-self-end position-relative">
+          <hr class="position-absolute bg-secondary" style=" bottom: 20px;right: -17px;width: 1000px;">
+          <i class="fa-solid fa-chevron-right  " type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" (click)="makeVisibleCanvas()">
+          </i>
+        </div>
+
+      </div>
+      <div class="offcanvas-body">
+        <div class="text-light mt-mine">testing </div>
+        <div class="text-light mt-mine">broken</div>
+        <div class="text-light mt-mine">technichan</div>
+        <div class="text-light mt-mine">police</div>
+        <div class="text-light mt-mine">doors </div>
+        <div class="text-light mt-mine">windows </div>
+        <div class="text-light mt-mine">motion </div>
+        <div class="text-light mt-mine">battery </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  </div>

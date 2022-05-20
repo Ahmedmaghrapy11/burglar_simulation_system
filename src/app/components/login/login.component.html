@@ -1,0 +1,42 @@
+<div id="login">
+  <div id="background" class="position-relative overflow-hidden vh-100 login"></div>
+
+
+
+<div class="login top-50 start-50 position-absolute translate-middle rounded-3"
+  style="width: 400px;height: 430px; background-color: #cfe2ff2d;box-shadow: 0 1rem 3rem rgba(0,0,0,.3);">
+
+  <div class="p-4 text-white text-opacity-75">
+    <form>
+      <div class="mb-3">
+        <h1 class=" ">login</h1>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label fs-5">Email </label>
+        <input type="email" placeholder="email" class="form-control bg-dark bg-opacity-25 border-0 text-dark"
+          name="email" [(ngModel)]="email">
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label fs-5">Password</label>
+        <input type="password" placeholder="password" class="form-control bg-dark bg-opacity-25 border-0"
+          name="password" [(ngModel)]="password">
+      </div>
+
+      <div class="text-danger mb-2"  *ngIf="this.auth.message">{{this.auth.clearValidation(this.auth.message) }}</div>
+
+      <button type="button" class="btn btn-outline-primary w-25" (click)="login(); " [disabled]="this.auth.isLogin.value">
+        <span *ngIf="!this.auth.isLogin.value">submit</span>
+        <span *ngIf="this.auth.isLogin.value">
+          <i class="fa-solid fa-circle-notch fa-spin"  style="--fa-animation-duration: .7s;"></i>
+        </span>
+      </button>
+
+
+    </form>
+    <div class="mt-2 fs-6">Need Account ?<span style="cursor: pointer;" class="text-primary " routerLink="/register">
+        register</span></div>
+  </div>
+</div>
+
+</div>
